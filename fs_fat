@@ -1,0 +1,17 @@
+#!/bin/bash
+## Pruebas de rendimiento sobre sistemas de archivos fat
+
+# creamos archivo en bruto que representara una partición virtual
+# crearemos una particion apartir de un archivo a manera de estudio
+# pero tambien puede aplicacar sobre particiones nativas
+# creamos con el mandato dd una particion con datos nulos de 100000 bloques (1 bloque = 512 Bytes)
+dd if=/dev/zero of=fat.fs count=100000
+# formatear el archivo creado
+mkfs.vfat fat.fs
+#crear carpeta de montaje
+mkdir /test/particion_fat
+# Mapear el archivo a loop, fat.fs queda referenciado por /dev/loop4
+losetup /dev/loop4 fat.fs
+# montamos el archivo al directorio creado con anterioridad
+mount -t vfat /dev/loop4 /test/particion_fat
+

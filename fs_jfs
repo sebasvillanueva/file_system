@@ -1,0 +1,17 @@
+#!/bin/bash
+## Pruebas de rendimiento sobre sistemas de archivos jfs
+
+# creamos archivo en bruto que representara una partición virtual
+# crearemos una particion apartir de un archivo a manera de estudio
+# pero tambien puede aplicacar sobre particiones nativas
+# creamos con el mandato dd una particion con datos nulos de 100000 bloques (1 bloque = 512 Bytes)
+dd if=/dev/zero of=jfs.fs count=100000
+# formatear el archivo creado
+mkfs.jfs jfs.fs
+#crear carpeta de montaje
+mkdir /test/particion_jfs
+# Mapear el archivo a loop, jfs.fs queda referenciado por /dev/loop6
+losetup /dev/loop6 jfs.fs
+# montamos el archivo al directorio creado con anterioridad
+mount -t jfs /dev/loop6 /test/particion_jfs
+

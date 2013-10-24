@@ -1,0 +1,17 @@
+#!/bin/bash
+## Pruebas de rendimiento sobre sistemas de archivos xfs
+
+# creamos archivo en bruto que representara una partición virtual
+# crearemos una particion apartir de un archivo a manera de estudio
+# pero tambien puede aplicacar sobre particiones nativas
+# creamos con el mandato dd una particion con datos nulos de 100000 bloques (1 bloque = 512 Bytes)
+dd if=/dev/zero of=xfs.fs count=100000
+# formatear el archivo creado
+mkfs.xfs xfs.fs
+#crear carpeta de montaje
+mkdir /test/particion_xfs
+# Mapear el archivo a loop, xfs.fs queda referenciado por /dev/loop5
+losetup /dev/loop5 xfs.fs
+# montamos el archivo al directorio creado con anterioridad
+mount -t xfs /dev/loop5 /test/particion_xfs
+
