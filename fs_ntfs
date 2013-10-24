@@ -7,8 +7,7 @@
 # creamos con el mandato dd una particion con datos nulos de 100000 bloques (1 bloque = 512 Bytes)
 dd if=/dev/zero of=ntfs.fs count=100000
 # formatear el archivo creado
-sudo mkfs.ntfs -v -L ntfs /dev/loop3
-#mkntfs --fast ntfs ntfs.fs
+/sbin/mkntfs /dev/loop3
 #crear carpeta de montaje
 mkdir /test/particion_ntfs
 # Mapear el archivo a loop, ntfs.fs queda referenciado por /dev/loop3
